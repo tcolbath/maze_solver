@@ -13,6 +13,7 @@ class Cell:
         self._y2 = None
         self._win = window
 
+
     def draw(self, x1, y1, x2, y2):
         if self._win == None:
             return
@@ -22,18 +23,33 @@ class Cell:
         self._x2 = x2
         self._y2 = y2
         
-        if self.has_top_wall == True:
-            tw = Line(Point(x1, y1), Point(x2, y1))
+        # wall postions
+        tw = Line(Point(x1, y1), Point(x2, y1))
+        rw = Line(Point(x2, y1), Point(x2, y2))
+        bw = Line(Point(x1, y2), Point(x2, y2))
+        lw = Line(Point(x1, y1), Point(x1, y2))
+
+        # draw walls
+        if self.has_top_wall:   
             self._win.draw_line(tw)
-        if self.has_right_wall == True:
-            rw = Line(Point(x2, y1), Point(x2, y2))
+        else:
+            self._win.draw_line(tw, "white")
+
+        if self.has_right_wall:
             self._win.draw_line(rw)
-        if self.has_bottom_wall == True:
-            bw = Line(Point(x1, y2), Point(x2, y2))
+        else:
+            self._win.draw_line(rw, "white")
+
+        if self.has_bottom_wall:
             self._win.draw_line(bw)
-        if self.has_left_wall == True:
-            lw = Line(Point(x1, y1), Point(x1, y2))
+        else:
+            self._win.draw_line(bw, "white")
+
+        if self.has_left_wall:
             self._win.draw_line(lw)
+        else:
+            self._win.draw_line(lw, "white")
+
 
     def draw_move(self, to_cell, undo=False):
         if self._win is None:
