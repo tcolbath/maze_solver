@@ -108,9 +108,16 @@ class Maze:
     
 
     def solve(self):
-        return self._solve_r(0, 0)
+        start = time.perf_counter()
+        solvable = self._solve_r(0, 0)
+        end = time.perf_counter()
+        elapsed = end - start
+        if solvable:
+            print(f"Solution Found in {elapsed}!")
+        else:
+            print(f"Cannot be solved :(.  Failed in {elapsed}")
     
-    
+
     def _solve_r(self, i, j):
         self._animate(0.08)
         current_cell = self._cells[i][j]

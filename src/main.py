@@ -27,11 +27,7 @@ def main():
     print("Maze created.")
     
     # maze solve
-    solveable = maze.solve()
-    if solveable:
-        print("Solution Found!")
-    else:
-        print("Cannot be solved :(")
+    maze.solve()
 
     win.wait_for_close()
 
