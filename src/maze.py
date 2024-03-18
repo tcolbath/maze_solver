@@ -50,11 +50,11 @@ class Maze:
         self._animate()
 
 
-    def _animate(self):
+    def _animate(self, sleep=.00):
         if self._win is None:
             return
         self._win.redraw()
-        time.sleep(0.05)
+        time.sleep(sleep)
 
 
     def _break_entrance_and_exit(self):
@@ -105,6 +105,47 @@ class Maze:
         for columns in self._cells:
             for row in columns:
                 row.visited = False
+
+    def solve(self):
+        return self._solve_r(0, 0)
+    
+    def _solve_r(self, i, j):
+        self._animate(0.08)
+        current_cell = self._cells[i][j]
+        current_cell.visited = True
         
+        # end cell
+        if i == self._num_cols - 1 and j == self._num_rows - 1:
+            return True
+
+        # right
+        if not current_cell.has_right_wall and not self._cells[i + 1][j].visited:
+            current_cell.draw_move(self._cells[i + 1][j])
+            if self._solve_r(i + 1, j):
+                return True
+            else:
+                current_cell.draw_move(self._cells[i + 1][j], True)
+        # down
+        if not current_cell.has_bottom_wall and not self._cells[i][j + 1].visited:
+            current_cell.draw_move(self._cells[i][j + 1])
+            if self._solve_r(i, j + 1):
+                return True
+            else:
+                current_cell.draw_move(self._cells[i][j + 1], True)
+        # left
+        if not current_cell.has_left_wall and not self._cells[i - 1][j].visited:
+            current_cell.draw_move(self._cells[i - 1][j])
+            if self._solve_r(i - 1, j):
+                return True
+            else: 
+                current_cell.draw_move(self._cells[i - 1][j], True)
+        # up
+        if not current_cell.has_top_wall and not self._cells[i][j - 1].visited:
+            current_cell.draw_move(self._cells[i][j - 1])
+            if self._solve_r(i, j - 1):
+                return True
+            else:
+                current_cell.draw_move(self._cells[i][j - 1], True)
+        return False
 
 
