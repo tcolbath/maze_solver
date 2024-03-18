@@ -105,9 +105,11 @@ class Maze:
         for columns in self._cells:
             for row in columns:
                 row.visited = False
+    
 
     def solve(self):
         return self._solve_r(0, 0)
+    
     
     def _solve_r(self, i, j):
         self._animate(0.08)
